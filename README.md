@@ -24,7 +24,7 @@
 
 - Use the following command to connect to grader:
 
-  ssh -i path/to/privatekey -p 2200 grader@ip address
+    ssh -i path/to/privatekey -p 2200 grader@ip address
   
 - Create the grader user:
   
