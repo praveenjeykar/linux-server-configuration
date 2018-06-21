@@ -24,45 +24,45 @@
 
 - Use the following command to connect to grader:
 
-    ssh -i path/to/privatekey -p 2200 grader@ip address
+        ssh -i path/to/privatekey -p 2200 grader@ip address
   
 - Create the grader user:
   
-  ubuntu@ip-172-26-0-113:~$ sudo apt update
+        ubuntu@ip-172-26-0-113:~$ sudo apt update
   
-  sudo adduser grader
+        sudo adduser grader
   
 - Now follow the below steps:
 
-  sudo nano /etc/sudoers
+        sudo nano /etc/sudoers
   
 - Granting the sudo permission to grader
 
-  grader  ALL=(ALL:ALL) ALL
+        grader  ALL=(ALL:ALL) ALL
   
 - Creating a ssh key pair for grader:
 
 - Open new command prompt and the type:
 
-  ssh-keygen
+        ssh-keygen
   
 - This will generate public and private ssh keys which is saved to .ssh folder.
 
 - Changing user from ubuntu to grader:
 
-  sudo su - grader
+        sudo su - grader
   
 - Create a directory .ssh and new file authorized_keys in that directory.
 
-  mkdir .ssh
+        mkdir .ssh
   
-  sudo nano .ssh/authorized_keys
+        sudo nano .ssh/authorized_keys
   
 - Permissions:
 
-  chmod 700 .ssh
+        chmod 700 .ssh
   
-  chmod 644 .ssh/authorized_keys
+        chmod 644 .ssh/authorized_keys
   
 - 700 will give read write and execute permission to user.
 
@@ -70,37 +70,37 @@
 
 - Restarting the SSH server by typing the following:
 
-  sudo service ssh restart
+        sudo service ssh restart
   
-  ssh -i .ssh/id_rsa grader@IPaddress
+        ssh -i .ssh/id_rsa grader@IPaddress
   
 - Changing the port from 22 to 2200:
 
-  sudo nano /etc/ssh/sshd_config
+        sudo nano /etc/ssh/sshd_config
   
 - Disabling SSH login as root:
 
-  sudo nano /etc/ssh/sshd_config
+        sudo nano /etc/ssh/sshd_config
   
 -  make change PermitRootLogin no
 
 - Uncomplicated firewall(ufw) enbling:
 
-  sudo ufw allow 2200/tcp
+        sudo ufw allow 2200/tcp
   
-  sudo ufw allow 80/tcp
+        sudo ufw allow 80/tcp
   
-  sudo ufw allow 123/udp
+        sudo ufw allow 123/udp
   
-  sudo ufw enable
+        sudo ufw enable
   
 - For viewing ports type:
 
-  sudo ufw status
+        sudo ufw status
   
 - Changing time Zone:
 
-  sudo dpkg-reconfigure tzdata
+        sudo dpkg-reconfigure tzdata
   
 #### Step:2
 
@@ -128,51 +128,51 @@
 
 ##### Software installation process:
 
-  sudo apt-get install apache2		
+        sudo apt-get install apache2		
 
-  sudo apt-get install python-setuptools libapache2-mod-wsgi
+        sudo apt-get install python-setuptools libapache2-mod-wsgi
 
-  sudo a2enmod wsgi
+        sudo a2enmod wsgi
 
-  cd /var/www
+        cd /var/www
 
-  sudo mkdir FlaskApp
+        sudo mkdir FlaskApp
 
-  sudo apt-get install git
+        sudo apt-get install git
 
-  sudo apt-get install python-pip virtualenv
+        sudo apt-get install python-pip virtualenv
 
-  sudo virtualenv venv
+        sudo virtualenv venv
 
-  sudo pip install Flask
+        sudo pip install Flask
 
-  sudo pip install postgresql oauth2client httplib2 requests psycopg2
+        sudo pip install postgresql oauth2client httplib2 requests psycopg2
 
-  cd /var/www/FlaskApp
+        cd /var/www/FlaskApp
  
-  sudo rm -r FlaskApp
+        sudo rm -r FlaskApp
   
 - Rename your main python file in your repository into init.py
 
-  sudo mv project.py __init__.py
+        sudo mv project.py __init__.py
   
 - Clone your github repository into that directory.
 
-  sudo git clone 'https://github.com/username/filename.git'
+        sudo git clone 'https://github.com/username/filename.git'
   
 - By typing ls check whether your files are added or not.
 
 - Changing database in both database_setup.py and init.py
 
-  sudo nano database_setup.py
+        sudo nano database_setup.py
   
 - Open
 
-  https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+        https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
   
 - Replacing database connection in init.py and database_setup.py
 
-  engine = create_engine('postgresql://catalog:password@localhost/catalog')
+        engine = create_engine('postgresql://catalog:password@localhost/catalog')
   
 - Error : While accesssing the client_secrets.json file
 
@@ -181,41 +181,41 @@
   
 - Replace client_secrets.json with json_url in scriptfile
 
-  sudo apt-get install postgresql
+        sudo apt-get install postgresql
 
-  sudo su - postgres
+        sudo su - postgres
 
-  psql
+        psql
   
 - Creating user
 
-  CREATE USER catalog WITH PASSWORD 'password';
+        CREATE USER catalog WITH PASSWORD 'password';
   
 - Alter user
 
-  ALTER USER catalog CREATEDB;
+        ALTER USER catalog CREATEDB;
   
 - Database creation
 
-  CREATE DATABASE catalog WITH OWNER catalog;
+        CREATE DATABASE catalog WITH OWNER catalog;
    
 - Switching to database catalog
 
-  \c catalog  
+        \c catalog  
   
 - revoke
 
-  REVOKE ALL ON SCHEMA public FROM public;
+        REVOKE ALL ON SCHEMA public FROM public;
   
 - Granting
 
-   GRANT ALL ON SCHEMA public TO catalog;
+        GRANT ALL ON SCHEMA public TO catalog;
    
 - now type \q and then exit.
 
 - Change the database connection in both database_setup.py and init.py as
 
-  engine = create_engine('postgresql://catalog:password@localhost/catalog')
+        engine = create_engine('postgresql://catalog:password@localhost/catalog')
   
 #### Step:3
 
@@ -223,13 +223,13 @@
 
 <VirtualHost *:80> ServerName mywebsite.com ServerAdmin admin@mywebsite.com WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi <Directory /var/www/FlaskApp/FlaskApp/> Order allow,deny Allow from all Alias /static /var/www/FlaskApp/FlaskApp/static <Directory /var/www/FlaskApp/FlaskApp/static/> Order allow,deny Allow from all ErrorLog ${APACHE_LOG_DIR}/error.log LogLevel warn CustomLog ${APACHE_LOG_DIR}/access.log combined.
   
-  sudo a2ensite FlaskApp
+        sudo a2ensite FlaskApp
 
-  sudo a2dissite 000-default.conf
+        sudo a2dissite 000-default.conf
   
 - .wsgi file
 
-  sudo nano flaskapp.wsgi
+        sudo nano flaskapp.wsgi
   
 - Add the below code.
 
@@ -241,25 +241,25 @@
 
 - Go to google console and change homeurl as
 
-  http://ipaddress.xip.io\callback
+        http://ipaddress.xip.io\callback
 
-  http://ipaddress.xip.io\gconnect
+        http://ipaddress.xip.io\gconnect
 
-  http://ipaddress.xip.io\login
+        http://ipaddress.xip.io\login
   
 #### Step:5
 
-  sudo service apache2 restart
+        sudo service apache2 restart
   
 - By typing your IP address in a web browser, we will be redirected into our project.
 
 - For error checking:
 
-  sudo nano /var/log/apache2/error.log
+        sudo nano /var/log/apache2/error.log
   
 - My server Details
   
-  Server static IP Address 13.127.156.77
+        Server static IP Address 13.127.156.77
   
 - Grader key
 
@@ -297,15 +297,15 @@ o+JV3UBGt5OMMPz0JNad2Tj9xf3A21kIBUcc8CLeSJdymiC2oXU=
   
 - Grader Password
 
-  unix
+        unix
   
 - Outcome:
 
-  CLICK HERE http://13.127.156.77.xip.io
+        CLICK HERE http://13.127.156.77.xip.io
   
 - Reference:
 
-  https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+        https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
 
   
 
